@@ -5,9 +5,9 @@ A command library help user upload their results to dashboard.
 import json
 import argparse
 from ..file_utils import import_local_resources as _import_local_resources
-from . import main
+from . import cli_constant as cli
 
-def import_local_resources(args):
+def entry(args):
 	'''Entrance of importing local resources'''
 	parser = argparse.ArgumentParser(prog="cotk import", \
 		description="Import local resources")
@@ -16,4 +16,4 @@ def import_local_resources(args):
 	cargs = parser.parse_args(args)
 
 	_import_local_resources(cargs.file_id, cargs.file_path)
-	main.LOGGER.info("Successfully import local resource {}.".format(cargs.file_id))
+	cli.LOGGER.info("Successfully import local resource {}.".format(cargs.file_id))

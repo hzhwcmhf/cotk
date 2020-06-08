@@ -13,11 +13,12 @@ import textwrap
 
 
 import requests
-from . import _utils, main
+from . import _utils
+from . import cli_constant as cli
 from ..hooks import start_recorder, close_recorder
 
-LOGGER = main.LOGGER
-DASHBOARD_URL = main.DASHBOARD_URL
+LOGGER = cli.LOGGER
+DASHBOARD_URL = cli.DASHBOARD_URL
 REPORT_URL = DASHBOARD_URL + "/upload"
 SHOW_URL = DASHBOARD_URL + "/show?id=%d"
 BACKUP_FILE = '.cotk_upload_backup'
@@ -95,8 +96,8 @@ def upload_report(result_path, entry, args, working_dir, \
 
 def get_local_token():
 	'''Read locally-saved token'''
-	if os.path.exists(main.CONFIG_FILE):
-		return json.load(open(main.CONFIG_FILE, 'r', encoding='utf-8'))['token']
+	if os.path.exists(cli.CONFIG_FILE):
+		return json.load(open(cli.CONFIG_FILE, 'r', encoding='utf-8'))['token']
 	else:
 		raise RuntimeError("Please set your token. \n" + \
 						   "    Either using \"--token\" to specify token temporarily\n" + \

@@ -58,15 +58,15 @@ E.g. git push -u origin master. ")
 			remote_name, git_remote.stdout.decode(sys.stdout.encoding))
 	http_reg = re.search(r"%s\s+https?://github\.com/(\S+?)/(\S+?)\.git\s+\(push\)" % \
 			remote_name, git_remote.stdout.decode(sys.stdout.encoding))
-	if ssh_reg is None and http_reg is None:
-		raise RuntimeError("No remote named %s, please use 'git remote add' to identify \
-your remote repo on github." % git_remote)
 	if ssh_reg:
 		git_user = ssh_reg.group(1)
 		git_repo = ssh_reg.group(2)
-	else:
+	elif http_reg:
 		git_user = http_reg.group(1)
 		git_repo = http_reg.group(2)
+	else:
+		raise RuntimeError("No remote named %s, please use 'git remote add' to identify \
+your remote repo on github." % git_remote)
 
 	return git_user, git_repo
 

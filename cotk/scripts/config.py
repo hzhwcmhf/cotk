@@ -4,28 +4,29 @@ A command library help user upload their results to dashboard.
 #!/usr/bin/env python
 import json
 import argparse
-from . import main
+
+from . import cli_constant as cli
 
 def load_config():
 	try:
-		config_ = json.load(open(main.CONFIG_FILE, 'r', encoding='utf-8'))
+		config_dict = json.load(open(cli.CONFIG_FILE, 'r', encoding='utf-8'))
 	except (FileNotFoundError, json.JSONDecodeError):
-		config_ = {}
-	return config_
+		config_dict = {}
+	return config_dict
 
 
 def config_set(variable, value):
-	config = load_config()
-	config[variable] = value
-	json.dump(config, open(main.CONFIG_FILE, 'w', encoding='utf-8'))
-	main.LOGGER.info("Save your configuration locally at {}".format(main.CONFIG_FILE))
+	config_dict = load_config()
+	config_dict[variable] = value
+	json.dump(config_dict, open(cli.CONFIG_FILE, 'w', encoding='utf-8'))
+	cli.LOGGER.info("Save your configuration locally at {}".format(cli.CONFIG_FILE))
 
 
 def config_load(variable):
-	config = load_config()
-	return config.get(variable, None)
+	config_dict = load_config()
+	return config_dict.get(variable, None)
 
-def config(args):
+def entry(args):
 	'''Entrance of configuration'''
 	parser = argparse.ArgumentParser(prog="cotk config", \
 		description='Configuration (e.g. token)')
@@ -36,9 +37,9 @@ def config(args):
 
 	if cargs.action == "set":
 		config_set(cargs.variable, " ".join(cargs.value))
-		main.LOGGER.info("%s = %s", cargs.variable, " ".join(cargs.value))
+		cli.LOGGER.info("%s = %s", cargs.variable, " ".join(cargs.value))
 	elif cargs.action == "show":
 		value = config_load(cargs.variable)
-		main.LOGGER.info("%s = %s", cargs.variable, value)
+		cli.LOGGER.info("%s = %s", cargs.variable, value)
 	else:
 		raise RuntimeError("Unkown action.")

@@ -3,11 +3,15 @@
 Resources
 ===================================
 
-Classes like :class:`.dataloder.Dataloader` usually need ``file_id`` to locate
-resources. The string will be passed to :meth:`._utils.file_utils.get_resource_file_path` or
-:meth:`._utils.file_utils.import_local_resources`.
 
-The format  of ``file_id`` is ``resources://name[@source][#processor]``,
+File ID
+-----------------------------------
+
+Classes like :class:`.dataloder.Dataloader` usually need ``file_id`` to locate
+resources. The string will be passed to :meth:`.file_utils.file_utils.get_resource_file_path` or
+:meth:`.file_utils.file_utils.import_local_resources`.
+
+The format  of ``file_id`` is ``name[@source][#processor]``,
 where ``source`` and ``processor`` are optional.
 
 * ``name`` can be:
@@ -16,13 +20,14 @@ where ``source`` and ``processor`` are optional.
     * A string start with "https://" indicating online resources.
     * A string indicating local path, absolute or relative to cwd.
 
-* ``source`` only works when ``name`` indicating a predefined resources.
-  It has to be one of a source defined for each resources, see the following
-  sections for reference. If not specified, a default source will be chosen
+* ``source`` only works when ``name`` indicates a predefined resources,
+  where ``source`` means where to download the dataset.
+  See the following sections of a specific resource for all availiable ``source``.
+  If not specified, a default source will be chosen
   (the first one in the list showing source).
 
 * ``preprocessor`` is necessary when ``name`` is not a predefined resources.
-  It has to be one of the subclass of :class:`._utils.file_utils.ResourceProcessor`.
+  It has to be one of the subclass of :class:`.file_utils.file_utils.ResourceProcessor`.
 
 Examples:
 
@@ -35,16 +40,30 @@ https://cotk-data.s3-ap-northeast-1.amazonaws.com/mscoco.zip#MSCOCO           MS
 ./mscoco.zip#MSCOCO                                                           MSCOCO   None             MSCOCOResourceProcessor
 ============================================================================  =======  ===============  ===================================
 
-.. note::
+Download / Import Resources Manually
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    If you already have the resources data at local, but ``cotk`` didn't notice them and
-    try to download again, you can use the following command to import local resources into cache.
+If you want to use CoTK resources in an offline environment,
+you can download resources and import them to cotk manually.
 
-    ``cotk import <file_id> <file_path>``
-    
-    where ``file_path`` is the path to the local resource. For example:
+* The download urls are placed under ``./cotk/resource_config``, see :ref:`Resource Configs<resources_desc>`.
 
-    ``cotk import resources://MSCOCO ./MSCOCO.zip``
+* The following command can import a local file of resources into cache:
+
+.. code-block:: none
+
+    cotk import <file_id> <file_path>
+
+where ``file_id`` should start with ``resources://``, and ``file_path`` is the path to the local resource. For example:
+
+.. code-block:: none
+
+    cotk import resources://MSCOCO ./MSCOCO.zip
+
+More :ref:`CLI commands here<cli_usage>`.
+
+
+Predefined Resources
 
 
 Word Vector

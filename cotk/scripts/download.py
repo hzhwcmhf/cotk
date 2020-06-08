@@ -1,5 +1,7 @@
 '''
 A command library help user upload their results to dashboard.
+
+The scripts is now disabled because of no maintenance.
 '''
 #!/usr/bin/env python
 import os
@@ -9,9 +11,10 @@ import argparse
 import re
 
 import requests
-from . import main, _utils
+from . import _utils
+from . import cli_constant as cli
 
-DASHBOARD_URL = main.DASHBOARD_URL
+DASHBOARD_URL = cli.DASHBOARD_URL
 QUERY_URL = DASHBOARD_URL + "/get?id=%d"
 
 def get_result_from_id(query_id):
@@ -57,15 +60,15 @@ Path to dump dashboard result.")
 	if cargs.model.isdigit():
 		# download from dashboard
 		board_id = int(cargs.model)
-		main.LOGGER.info("Collecting info from id %d...", board_id)
+		cli.LOGGER.info("Collecting info from id %d...", board_id)
 		info = get_result_from_id(board_id)
 		if cargs.result is not None:
 			json.dump(info, open(cargs.result, "w", encoding='utf-8'))
-			main.LOGGER.info("Info from id %d saved to %s.", board_id, cargs.result)
+			cli.LOGGER.info("Info from id %d saved to %s.", board_id, cargs.result)
 
 		code_dir = clone_codes_from_commit(info['git_user'], info['git_repo'], \
 												  info['git_commit'])
-		main.LOGGER.info("Codes from id %d fetched.", board_id)
+		cli.LOGGER.info("Codes from id %d fetched.", board_id)
 	else:
 		# download from online git repo
 		patterns_2 = r'(?:https?://github\.com/)?([^\s/]+)/([^\s/]+)/?'
@@ -80,9 +83,9 @@ Path to dump dashboard result.")
 				raise ValueError("'%s' can't match any pattern." % cargs.model)
 			git_user, git_repo, git_commit = match_res.groups()
 
-		main.LOGGER.info("Fetching {}/{}/{}".format(git_user, git_repo, git_commit))
+		cli.LOGGER.info("Fetching {}/{}/{}".format(git_user, git_repo, git_commit))
 		code_dir = clone_codes_from_commit(git_user, git_repo, git_commit)
-		main.LOGGER.info("Codes from {}/{}/{} fetched.".format(git_user, git_repo, git_commit))
+		cli.LOGGER.info("Codes from {}/{}/{} fetched.".format(git_user, git_repo, git_commit))
 
 		config_path = "{}/.model_config.json".format(code_dir)
 		if os.path.isfile(config_path):
@@ -110,10 +113,10 @@ Path to dump dashboard result.")
 		cmd += " {}".format(" ".join(info['args']))
 		with open("run_model.sh", "w", encoding='utf-8') as file:
 			file.write(cmd)
-		main.LOGGER.info("Model running cmd written in {}".format("run_model.sh"))
+		cli.LOGGER.info("Model running cmd written in {}".format("run_model.sh"))
 		print("Model running cmd: \t{}".format(cmd))
 	else:
-		main.LOGGER.info("Code downloaded successful but config file is not found.")
+		cli.LOGGER.info("Code downloaded successful but config file is not found.")
 
 	# run model
 	# result_path = "{}/result.json".format(code_dir)

@@ -64,6 +64,8 @@ the requirements.
 Use a resources name
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+.. _resources_desc:
+
 This time, you have to change some codes in ``cotk``.
 First you have to understand the usage of resources at
 :ref:`here <resources_reference>`. Then see the json file under

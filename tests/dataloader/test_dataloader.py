@@ -5,6 +5,7 @@ import os
 import shutil
 from collections import OrderedDict
 from typing import List
+import sys
 
 import pytest
 from pytest_mock import mocker

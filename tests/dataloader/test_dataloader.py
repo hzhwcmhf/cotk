@@ -14,14 +14,26 @@ import numpy as np
 from cotk.dataloader import GeneralVocab, SimpleTokenizer, SentenceDefault, LanguageProcessing, \
 	Field, Vocab, Tokenizer, FieldContext, VocabContext
 from cotk.file_utils import file_utils
-from cache_dir import CACHE_DIR
+
+sys.path.insert(0, str(Path(__file__).parent.joinpath('../share').resolve()))
+import cache_dir
+from cache_dir import CACHE_DIR, CONFIG_DIR, CONFIG_FILE
 
 def setup_module():
+	if os.path.isdir(CACHE_DIR):
+		shutil.rmtree(CACHE_DIR)
+	if os.path.isdir(CONFIG_DIR):
+		shutil.rmtree(CONFIG_DIR)
+
 	file_utils.CACHE_DIR = CACHE_DIR
+	file_utils.CONFIG_DIR = CONFIG_DIR
+	os.makedirs(CONFIG_DIR)
 
 def teardown_module():
 	if os.path.isdir(CACHE_DIR):
 		shutil.rmtree(CACHE_DIR)
+	if os.path.isdir(CONFIG_DIR):
+		shutil.rmtree(CONFIG_DIR)
 
 class BaseTestLanguageProcessing:
 	"""Test :class:`LanguageProcessing` or it's subclass."""

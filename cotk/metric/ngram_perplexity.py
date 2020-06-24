@@ -5,7 +5,6 @@ import logging
 from ..dataloader import Tokenizer, SimpleTokenizer
 from .metric import MetricBase
 from ..models.ngram_language_model import KneserNeyInterpolated
-from ..hooks import hooks
 
 class NgramFwBwPerplexityMetric(MetricBase):
 	'''Metric for calculating n gram forward perplexity and backward perplexity.
@@ -40,7 +39,6 @@ class NgramFwBwPerplexityMetric(MetricBase):
 	_name = 'NgramFwBwPerplexityMetric'
 	_version = 2
 
-	@hooks.hook_metric
 	def __init__(self, dataloader: Union["LanguageProcessing", "Sentence", "Session"], \
 			reference_test_list: List[Any], ngram: int = 4, *, \
 			tokenizer: Union[None, Tokenizer, str] = None, gen_key: str = "gen", \
@@ -67,7 +65,6 @@ class NgramFwBwPerplexityMetric(MetricBase):
 		gen = data[self.gen_key]
 		self.hyps.extend(gen)
 
-	@hooks.hook_metric_close
 	def close(self) -> Dict[str, Any]:
 		'''Return a dict which contains:
 

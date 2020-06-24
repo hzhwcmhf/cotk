@@ -39,7 +39,7 @@ class LanguageProcessing(Dataloader):
 	FILE_ID_DOCS = r"""
 			file_id (str): A string indicating the source (path) of the dataset. It can be local path (``"./data"``), a resource name
 				(``"resources://dataset"``), or an url (``"http://test.com/dataset.zip"``).
-				See :meth:`cotk.file_utils.get_resource_file_path` for further details."""
+				See :ref:`the details of file id<file_id>`."""
 
 	FIELD_DETAILS = r"""
 			fields (List, OrderedDict, Dict):
@@ -97,6 +97,20 @@ class LanguageProcessing(Dataloader):
 	PRETRAINED_DOCS = r'''
 			pretrained (str, optional): Use :ref:`pretrained field<pretrained_field_ref>` instead of :class:`SentenceDefault`.'''
 	_PRETAINED_DEFAULT = "Default: If ``None``, no pretrained field used."
+
+	# for docstring
+	fields: Dict[str, "OrderedDict[str, Union[str, Field]]"] = {}
+	'''This instance attribute shows fields of the dataloader (See the initialization of :class:`LanguageProcessing`).
+		For example, the fields can be printed as follows:
+
+		.. code-block:: python
+
+		    {
+		        'train': OrderedDict([('sent', <cotk.dataloader.field.SentenceDefault object at 0x000001E170F8B588>)]),
+		        'dev': OrderedDict([('sent', <cotk.dataloader.field.SentenceDefault object at 0x000001E170F8BB48>)]),
+		        'test': OrderedDict([('sent', <cotk.dataloader.field.SentenceDefault object at 0x000001E170F8BEC8>)])}
+		    }
+	'''
 
 	def __init__(self, file_id: str, \
 				 fields: Union["OrderedDict[str, Union[str, Field]]", List[Tuple[str, Union[str, Field]]],\

@@ -20,8 +20,6 @@ your models fairly with baselines.
    notes/installation
    notes/quickstart
    notes/tutorial_core
-   notes/tutorial_reproduction
-   notes/tutorial_dashboard
    notes/cli_usage
    notes/extend
    notes/FAQ
@@ -38,7 +36,6 @@ your models fairly with baselines.
    metric
    resources
    file_utils
-   hooks
 
 .. _model_zoo:
 

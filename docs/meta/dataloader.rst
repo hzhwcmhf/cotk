@@ -446,6 +446,8 @@ LanguageProcessing
 
 Tokenizer, Vocabulary, and Field
 #########################################
+.. autoattribute:: LanguageProcessing.fields
+    :annotation:
 .. automethod:: LanguageProcessing.get_default_tokenizer
 .. automethod:: LanguageProcessing.get_default_vocab
 .. automethod:: LanguageProcessing.get_default_field

@@ -6,7 +6,6 @@ from itertools import chain
 import numpy as np
 from nltk.translate.bleu_score import sentence_bleu, SmoothingFunction
 from .metric import MetricBase
-from ..hooks import hooks
 
 class _PrecisionRecallMetric(MetricBase):
 	"""Base class for precision recall metrics. This is an abstract class.
@@ -114,7 +113,6 @@ class _PrecisionRecallMetric(MetricBase):
 			self.prec_list.append(float(np.sum(np.max(matrix, 0))) / len(gen))
 			self.rec_list.append(float(np.sum(np.max(matrix, 1))) / len(reference))
 
-	@hooks.hook_metric_close
 	def close(self) -> Dict[str, Any]:
 		'''Return a dict which contains
 
@@ -166,7 +164,6 @@ class BleuPrecisionRecallMetric(_PrecisionRecallMetric):
 	_name = 'BleuPrecisionRecallMetric'
 	_version = 2
 
-	@hooks.hook_metric
 	def __init__(self, dataloader: Union["LanguageProcessing", "Sentence", "Session"], \
 				 ngram: int, \
 				 generated_num_per_context: int, \
@@ -254,7 +251,6 @@ class EmbSimilarityPrecisionRecallMetric(_PrecisionRecallMetric):
 	_name = 'EmbSimilarityPrecisionRecallMetric'
 	_version = 2
 
-	@hooks.hook_metric
 	def __init__(self, dataloader: Union["LanguageProcessing", "Sentence", "Session"], \
 				 word2vec: Dict[str, Any], \
 				 mode: str, \

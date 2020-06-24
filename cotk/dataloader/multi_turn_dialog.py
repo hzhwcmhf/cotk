@@ -5,7 +5,6 @@ import warnings
 from collections import OrderedDict
 
 from .._utils.metaclass import copy_func
-from ..hooks import hooks
 from .dataloader import LanguageProcessing
 from .field import Session, SessionGPT2, Field
 from .tokenizer import PretrainedTokenizer
@@ -80,7 +79,6 @@ class MultiTurnDialog(LanguageProcessing):
 				"turn_length": np.array([4, 2]), # the number of turns in each session
 				"sent_length": np.array([np.array([3, 3, 5, 5]), np.array([6, 5])]), # length of sentences'''
 
-	@hooks.hook_dataloader
 	def __init__(self, file_id: str,
 				 tokenizer=None,
 				 max_sent_length=None,
@@ -223,7 +221,6 @@ class UbuntuCorpus(MultiTurnDialog):
 		default_min_rare_vocab_times=0
 	)
 
-	@hooks.hook_dataloader
 	def __init__(self, file_id="resources://Ubuntu", min_frequent_vocab_times=10,
 				 max_sent_length=50, max_turn_length=20, min_rare_vocab_times=0,
 				 tokenizer='nltk',
@@ -263,7 +260,6 @@ class SwitchboardCorpus(MultiTurnDialog):
 	)
 
 
-	@hooks.hook_dataloader
 	def __init__(self, file_id="resources://SwitchboardCorpus", min_frequent_vocab_times=5, \
 				 max_sent_length=50, max_turn_length=1000, min_rare_vocab_times=0, tokenizer='nltk',
 				 pretrained=None):

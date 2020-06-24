@@ -5,7 +5,6 @@ import numpy as np
 from nltk import ngrams
 
 from .metric import MetricBase
-from ..hooks import hooks
 from ..dataloader import LanguageProcessing, Tokenizer, SimpleTokenizer
 from .._utils import replace_unk
 
@@ -24,7 +23,6 @@ class DistinctNgramsCorpus(MetricBase):
 	_name = 'DistinctNgrams'
 	_version = 1
 
-	@hooks.hook_metric
 	def __init__(self, dataloader: "LanguageProcessing", ngram=3, *, \
 			tokenizer: Union[None, Tokenizer, str] = None, \
 			sample=10000, \
@@ -84,7 +82,6 @@ class DistinctNgramsCorpus(MetricBase):
 			hyp = self.dataloader.convert_ids_to_sentence(gen_sen, remove_special=True, trim=True)
 			self.hyps.append(hyp)
 
-	@hooks.hook_metric_close
 	def close(self):
 		'''
 		Returns:

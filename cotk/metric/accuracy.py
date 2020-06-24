@@ -2,7 +2,6 @@ r"""
 Containing some classes and functions about accuracy evaluating results of models.
 """
 import numpy as np
-from ..hooks import hooks
 from .metric import MetricBase
 from ..dataloader import LanguageProcessing
 from typing import Dict, List, Any, Union
@@ -38,7 +37,6 @@ class AccuracyMetric(MetricBase):
 	_name = 'AccuracyMetric'
 	_version = 2
 
-	@hooks.hook_metric
 	def __init__(self, dataloader: Union["LanguageProcessing", "Sentence", "Session"],\
 			label_key: str="label", prediction_key: str="prediction"):
 		super().__init__(self._name, self._version)
@@ -71,7 +69,6 @@ class AccuracyMetric(MetricBase):
 
 		self._hash_unordered_list(data[self.label_key])
 
-	@hooks.hook_metric_close
 	def close(self) -> Dict[str, Any]:
 		'''
 		Returns:

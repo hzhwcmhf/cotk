@@ -7,7 +7,6 @@ from typing import Union, List, Any, Optional, Dict
 
 from .._utils.imports import LazyObject, LazyModule
 from ..dataloader import LanguageProcessing, Sentence
-from ..hooks import hooks
 from .metric import MetricBase
 
 torch = LazyModule("torch", globals())
@@ -49,7 +48,6 @@ class PerplexityMetric(MetricBase):
 	_name = 'PerplexityMetric'
 	_version = 2
 
-	@hooks.hook_metric
 	def __init__(self, dataloader: Union["LanguageProcessing", "Sentence", "Session"], \
 					   reference_allvocabs_key: str = "ref_allvocabs", \
 					   reference_len_key: str = "ref_length", \
@@ -304,7 +302,6 @@ class PerplexityMetric(MetricBase):
 
 		return word_loss, length_sum
 
-	@hooks.hook_metric_close
 	def close(self) -> Dict[str, Any]:
 		r'''Return a dict which contains
 
@@ -389,7 +386,6 @@ class MultiTurnPerplexityMetric(MetricBase):
 	_name = 'MultiTurnPerplexityMetric'
 	_version = 2
 
-	@hooks.hook_metric
 	def __init__(self, dataloader: Union["LanguageProcessing", "Sentence", "Session"], \
 					   multi_turn_reference_allvocabs_key: str = "multi_turn_ref_allvocabs", \
 					   multi_turn_reference_len_key: str = "multi_turn_ref_length", \
@@ -469,7 +465,6 @@ class MultiTurnPerplexityMetric(MetricBase):
 					"ref_length": sent_length[:turn_length], \
 					"gen_log_prob": gen_log_prob[i][:turn_length]})
 
-	@hooks.hook_metric_close
 	def close(self) -> Dict[str, Any]:
 		r'''Return a dict which contains
 

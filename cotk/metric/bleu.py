@@ -11,7 +11,6 @@ import tqdm
 from nltk.translate.bleu_score import corpus_bleu, sentence_bleu, SmoothingFunction
 
 from .metric import MetricBase
-from ..hooks import hooks
 from ..dataloader.tokenizer import Tokenizer, SimpleTokenizer
 from .._utils import replace_unk
 
@@ -70,7 +69,6 @@ class BleuCorpusMetric(MetricBase):
 	_name = 'BleuCorpusMetric'
 	_version = 2
 
-	@hooks.hook_metric
 	def __init__(self, dataloader: Union["LanguageProcessing", "Sentence", "Session"], ngram: int =4, *, \
 			tokenizer: Union[None, Tokenizer, str] = None, reference_num: Optional[int] = 1, \
 			ignore_smoothing_error: bool = False, reference_allvocabs_key: str = "ref_allvocabs", \
@@ -169,7 +167,6 @@ class BleuCorpusMetric(MetricBase):
 			relevant_data.append(refs)
 		self._hash_unordered_list(relevant_data)
 
-	@hooks.hook_metric_close
 	def close(self) -> Dict[str, Any]:
 		'''Return a dict which contains
 
@@ -247,7 +244,6 @@ class SelfBleuCorpusMetric(MetricBase):
 	_name = 'SelfBleuCorpusMetric'
 	_version = 2
 
-	@hooks.hook_metric
 	def __init__(self, dataloader: Union["LanguageProcessing", "Sentence", "Session"], ngram: int = 4, *, \
 		tokenizer: Union[None, Tokenizer, str] = None, \
 		gen_key: str = "gen", \
@@ -293,7 +289,6 @@ class SelfBleuCorpusMetric(MetricBase):
 
 		self.hyps.extend(gen)
 
-	@hooks.hook_metric_close
 	def close(self) -> Dict[str, Any]:
 		'''Return a dict which contains
 
@@ -403,7 +398,6 @@ class FwBwBleuCorpusMetric(MetricBase):
 	_name = 'FwBwBleuCorpusMetric'
 	_version = 2
 
-	@hooks.hook_metric
 	def __init__(self, dataloader: Union["LanguageProcessing", "Sentence", "Session"], \
 			reference_test_list: List[Any], ngram: int = 4, *, \
 			tokenizer: Union[None, Tokenizer, str] = None, \
@@ -451,7 +445,6 @@ class FwBwBleuCorpusMetric(MetricBase):
 		for gen_sen in gen:
 			self.hyps.append(list(self.dataloader.trim_in_ids(gen_sen)))
 
-	@hooks.hook_metric_close
 	def close(self) -> Dict[str, Any]:
 		'''Return a dict which contains
 
@@ -603,7 +596,6 @@ class MultiTurnBleuCorpusMetric(MetricBase):
 	_name = 'MultiTurnBleuCorpusMetric'
 	_version = 2
 
-	@hooks.hook_metric
 	def __init__(self, dataloader: Union["LanguageProcessing", "Sentence", "Session"], \
 					ignore_smoothing_error: bool = False,\
 					multi_turn_reference_allvocabs_key: str = "reference_allvocabs", \
@@ -661,7 +653,6 @@ class MultiTurnBleuCorpusMetric(MetricBase):
 				self.hyps.append(list(self.dataloader.trim_in_ids(gen_session[j])))
 				self.refs.append([list(self.dataloader.trim_in_ids(ref_session[j])[1:])])
 
-	@hooks.hook_metric_close
 	def close(self) -> Dict[str, Any]:
 		'''Return a dict which contains
 

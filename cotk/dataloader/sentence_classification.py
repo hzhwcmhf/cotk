@@ -3,7 +3,6 @@ import warnings
 from collections import OrderedDict
 
 from .field import Sentence, SentenceGPT2
-from ..hooks import hooks
 from .dataloader import LanguageProcessing
 from .context import FieldContext, VocabContext
 from .vocab import GeneralVocab, PretrainedVocab
@@ -26,7 +25,6 @@ class SentenceClassification(LanguageProcessing):
 	_version = 2
 
 
-	@hooks.hook_dataloader
 	def __init__(self, file_id: str,
 				 tokenizer=None,
 				 max_sent_length=None,
@@ -161,7 +159,6 @@ class SST(SentenceClassification):
 
 	'''
 
-	@hooks.hook_dataloader
 	def __init__(self, file_id, min_frequent_vocab_times=10, \
 				 max_sent_length=50, min_rare_vocab_times=0, tokenizer='space', pretrained=None):
 		fields = OrderedDict([['sent', 'SentenceDefault'], ['label', 'DenseLabel']])

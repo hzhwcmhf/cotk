@@ -12,7 +12,6 @@ import numpy as np
 
 from nltk.tokenize import WordPunctTokenizer
 from ..file_utils import get_resource_file_path
-from ..hooks import hooks
 from .dataloader import LanguageProcessing
 from .tokenizer import PretrainedTokenizer
 from .vocab import PretrainedVocab
@@ -33,7 +32,6 @@ class SingleTurnDialog(LanguageProcessing):
 
 	_version = 2
 
-	@hooks.hook_dataloader
 	def __init__(self, file_id, *, tokenizer=None, \
 			max_sent_length=None, \
 			convert_to_lower_letter=None, \
@@ -198,7 +196,6 @@ class OpenSubtitles(SingleTurnDialog):
 	_MIN_FREQUENT_VOCAB_TIMES_DEFAULT = r'''Default: ``10``.'''
 	_MIN_RARE_VOCAB_TIMES_DEFAULT = r'''Default: ``0``'''
 
-	@hooks.hook_dataloader
 	def __init__(self, file_id="resources://OpenSubtitles", *, \
 			tokenizer="nltk", \
 			max_sent_length=50, \

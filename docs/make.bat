@@ -33,6 +33,8 @@ if "%1" == "internal" goto internal
 
 if "%1" == "checkpublic" goto checkpublic
 
+if "%1" == "public_only_source" goto public_only_source
+
 %SPHINXBUILD% -M %1 %SOURCEDIR% %BUILDDIR% %SPHINXOPTS%
 goto end
 
@@ -51,6 +53,12 @@ goto end
 :checkpublic
 
 cd meta && python update_doc.py --check -D public && cd ..
+goto end
+
+:public_only_source
+
+cd meta && python update_doc.py -D public --only_source && cd ..
+%SPHINXBUILD% -M html %SOURCEDIR% %BUILDDIR% %SPHINXOPTS%
 goto end
 
 :help

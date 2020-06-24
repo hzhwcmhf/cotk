@@ -88,6 +88,7 @@ if __name__ == "__main__":
 ''')
     parser.add_argument('--check', action='store_true', dest='check', help="If the file is already existed, "
         "just check whether it is consistent with meta files.")
+    parser.add_argument('--only_source', action='store_true', help="Only check/generate filed in ../source/")
     parser.add_argument('-D', '--define', nargs='*')
     cargs = parser.parse_args()
 
@@ -111,6 +112,11 @@ if __name__ == "__main__":
 
         locations = get_location(originpath, file)
         for key, path in locations:
+            if cargs.only_source:
+                try:
+                    path.relative_to("../source/")
+                except:
+                    continue
             path.parent.mkdir(parents=True, exist_ok=True)
             text = render(file, [key] + defined_macros)
 

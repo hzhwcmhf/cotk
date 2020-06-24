@@ -23,6 +23,10 @@ internal:
 checkpublic:
 	@cd meta && python update_doc.py --check -D public && cd ..
 
+public_only_source:
+	@cd meta && python update_doc.py -D public --only_source && cd ..
+	@$(SPHINXBUILD) -M html "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
+
 .PHONY: help Makefile
 
 # Catch-all target: route all unknown targets to Sphinx using the new

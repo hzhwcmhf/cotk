@@ -13,7 +13,7 @@ install:
 
 script:
   - python setup.py test
-  - cd docs && make public && mv ./build/html ./build/docs && rm -r ./build/doctrees && cd ..
+  - cd docs && make public_only_source && mv ./build/html ./build/docs && rm -r ./build/doctrees && cd ..
   - cd docs/meta && python update_doc.py --check && cd ../..
 
 deploy:

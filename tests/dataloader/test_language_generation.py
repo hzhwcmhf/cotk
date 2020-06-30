@@ -4,14 +4,18 @@ import operator
 import os
 import shutil
 import pytest
+import sys
+from pathlib import Path
 from pytest_mock import mocker
-
-from version_test_base import base_test_version
-from cache_dir import CACHE_DIR
 
 from cotk.dataloader import PretrainedTokenizer, Field, Vocab, Tokenizer, LanguageGeneration, MSCOCO, Dataloader
 from cotk.metric import MetricBase
 from cotk.file_utils import file_utils
+
+from version_test_base import base_test_version
+
+sys.path.insert(0, str(Path(__file__).parent.joinpath('../share').resolve()))
+from cache_dir import CACHE_DIR
 
 def setup_module():
 	import random

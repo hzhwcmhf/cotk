@@ -126,9 +126,9 @@ class PretrainedTokenizer(Tokenizer):
 		self.tokenizer = tokenizer
 		self._tokenizer_class_name = tokenizer.__class__.__name__
 		with tempfile.TemporaryDirectory() as tmp_dir:
-			tokenizer.save_pretrained(str(tmp_dir))
+			tokenizer.save_vocabulary(str(tmp_dir))
 			tokenizer_hash = dirhash(str(tmp_dir), "sha256")
-		self._setting_hash = hashlib.sha256(dumps(["pretrained", tokenizer_hash])).hexdigest()
+		self._setting_hash = hashlib.sha256(dumps(["pretrained", self._tokenizer_class_name, tokenizer_hash])).hexdigest()
 
 	def tokenize(self, sentence: str) -> List[str]:
 		return self.tokenizer.tokenize(sentence)

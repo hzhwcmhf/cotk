@@ -1,19 +1,21 @@
 import copy
 import os
 import shutil
-
 import pytest
 from pytest_mock import mocker
 import random
 import operator
-
-from version_test_base import base_test_version
-from cache_dir import CACHE_DIR
+import sys
+from pathlib import Path
 
 from cotk.dataloader import PretrainedTokenizer, SingleTurnDialog, Field, Vocab, Tokenizer, OpenSubtitles
 from cotk.metric import MetricBase
 from cotk.file_utils import file_utils
 
+from version_test_base import base_test_version
+
+sys.path.insert(0, str(Path(__file__).parent.joinpath('../share').resolve()))
+from cache_dir import CACHE_DIR
 
 def setup_module():
 	import random

@@ -9,11 +9,16 @@ import shutil
 import random
 import numpy as np
 import pytest
+import sys
+from pathlib import Path
+
 from cotk.file_utils import file_utils
 from cotk.dataloader.field import Field, _FieldContent, Sentence, Session, DenseLabel, SparseLabel, SessionDefault, \
 	SentenceDefault, SentenceGPT2, SentenceBERT, SessionGPT2, SessionBERT
 from cotk.dataloader import SimpleVocab
 from cotk.dataloader import Vocab, Tokenizer, GeneralVocab
+
+sys.path.insert(0, str(Path(__file__).parent.joinpath('../share').resolve()))
 from cache_dir import CACHE_DIR
 
 

@@ -1,15 +1,21 @@
 import os
 import shutil
-
 import pytest
 import numpy as np
+import sys
+from pathlib import Path
+
 from cotk.dataloader import PretrainedTokenizer, SentenceClassification, SST, Sentence
 from cotk.metric import MetricBase
 from cotk.file_utils import file_utils
 
+
+
 from test_dataloader import BaseTestLanguageProcessing
 from version_test_base import base_test_version
 from test_field import CheckGetBatch
+
+sys.path.insert(0, str(Path(__file__).parent.joinpath('../share').resolve()))
 from cache_dir import CACHE_DIR
 
 

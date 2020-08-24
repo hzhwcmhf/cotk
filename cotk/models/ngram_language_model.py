@@ -12,6 +12,8 @@ from nltk.lm.preprocessing import pad_both_ends
 from nltk.util import everygrams
 import numpy as np
 
+from .._utils import get_cpu_count
+
 
 class KneserNeyInterpolated:
 	r'''Language model with modified Kneser-Ney smoothing.
@@ -49,12 +51,7 @@ class KneserNeyInterpolated:
 		self.suffix2concnt = {}
 		self.midseq2concnt = {}
 		self.n2cnt2discount = {n: {} for n in range(1, self.order + 1)}
-		if cpu_count is not None:
-			self.cpu_count = cpu_count
-		elif "CPU_COUNT" in os.environ and os.environ["CPU_COUNT"] is not None:
-			self.cpu_count = int(os.environ["CPU_COUNT"])
-		else:
-			self.cpu_count = multiprocessing.cpu_count()
+		self.cpu_count = get_cpu_count(cpu_count)
 
 	@property
 	def vocab_size(self):

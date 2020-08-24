@@ -12,7 +12,7 @@ from nltk.translate.bleu_score import corpus_bleu, sentence_bleu, SmoothingFunct
 
 from .metric import MetricBase
 from ..dataloader.tokenizer import Tokenizer, SimpleTokenizer
-from .._utils import replace_unk
+from .._utils import replace_unk, get_cpu_count
 
 if False: # for type check # disable: using-constant-test
 	from ..dataloader.dataloader import LanguageProcessing
@@ -258,12 +258,7 @@ class SelfBleuCorpusMetric(MetricBase):
 		self.sample = sample
 		self.hyps: List[Any] = []
 		self.seed = seed
-		if cpu_count is not None:
-			self.cpu_count = cpu_count
-		elif "CPU_COUNT" in os.environ and os.environ["CPU_COUNT"] is not None:
-			self.cpu_count = int(os.environ["CPU_COUNT"])
-		else:
-			self.cpu_count = multiprocessing.cpu_count()
+		self.cpu_count = get_cpu_count(cpu_count)
 
 	def forward(self, data: Dict[str, Any]):
 		'''Processing a batch of data.
@@ -412,13 +407,8 @@ class FwBwBleuCorpusMetric(MetricBase):
 		self.gen_key = gen_key
 		self.sample = sample
 		self.seed = seed
-		self.ngram=ngram
-		if cpu_count is not None:
-			self.cpu_count = cpu_count
-		elif "CPU_COUNT" in os.environ and os.environ["CPU_COUNT"] is not None:
-			self.cpu_count = int(os.environ["CPU_COUNT"])
-		else:
-			self.cpu_count = multiprocessing.cpu_count()
+		self.ngram = ngram
+		self.cpu_count = get_cpu_count(cpu_count)
 		self.hyps: List[Any] = []
 
 	def forward(self, data: Dict[str, Any]):

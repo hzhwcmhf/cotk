@@ -110,8 +110,7 @@ class DistinctNgramsCorpus(MetricBase):
 		if self.tokenizer:
 			self._do_tokenize()
 
-		if "unk" in self.dataloader.get_special_tokens_mapping():
-			self.hyps = replace_unk(self.hyps, unk = self.dataloader.get_special_tokens_mapping().get("unk", None))
+		self.hyps = replace_unk(self.hyps, self.dataloader.get_special_tokens_mapping()["unk"])
 
 		ngram_list = list(chain(*[ngrams(sentence, self.ngram, pad_left=True, pad_right=True) for sentence in self.hyps]))
 		ngram_set = set(ngram_list)

@@ -5,6 +5,7 @@ r"""
 import os
 from typing import List, Any, Tuple
 from itertools import chain
+import multiprocessing
 
 def trim_before_target(lists, target):
 	'''Trim the list before the target. If there is no target,
@@ -49,3 +50,16 @@ def replace_unk(sentences: List[Any], unk_token, target_token: Any = -1):
 
 def is_build_private_docs():
 	return os.environ.get('COTK_DOCS_TYPE', None) == 'private'
+
+def get_cpu_count(override_cpu_count=None):
+	cpu_count: int = 0
+	if override_cpu_count is not None:
+		cpu_count = override_cpu_count
+	elif "CPU_COUNT" in os.environ and os.environ["CPU_COUNT"] is not None:
+		try:
+			cpu_count = int(os.environ["CPU_COUNT"])
+		except ValueError:
+			print(f"Environment variable CPU_COUNT should be an integer or empty string.")
+	else:
+		cpu_count = multiprocessing.cpu_count() // 2
+	return max(cpu_count, 1)

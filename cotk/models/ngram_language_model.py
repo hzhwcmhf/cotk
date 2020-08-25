@@ -1,10 +1,8 @@
 r""" A implemention of KneserNey Interpolated Language Model.
 """
-import os
 from functools import partial
 from itertools import chain
 from collections import Counter
-import multiprocessing
 from multiprocessing import Pool
 import tqdm
 

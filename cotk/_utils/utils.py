@@ -3,7 +3,7 @@ r"""
 """
 
 import os
-from typing import List, Any, Tuple
+from typing import List, Any, Tuple, Optional
 from itertools import chain
 import multiprocessing
 
@@ -51,7 +51,16 @@ def replace_unk(sentences: List[Any], unk_token, target_token: Any = -1):
 def is_build_private_docs():
 	return os.environ.get('COTK_DOCS_TYPE', None) == 'private'
 
-def get_cpu_count(override_cpu_count=None):
+def get_cpu_count(override_cpu_count: Optional[int] = None):
+	r'''Get numbers of cpu for multiprocessing.
+
+	Arguments:
+		override_cpu_count (int, optional): If ``None``, return  half of numbers of all accessible cpus.
+			Otherwise, use ``override_cpu_count``. Default: ``None``
+
+	Returns:
+		int: the number of cpus for multiprocessing
+	'''
 	cpu_count: int = 0
 	if override_cpu_count is not None:
 		cpu_count = override_cpu_count
@@ -59,7 +68,8 @@ def get_cpu_count(override_cpu_count=None):
 		try:
 			cpu_count = int(os.environ["CPU_COUNT"])
 		except ValueError:
-			print(f"Environment variable CPU_COUNT should be an integer or empty string.")
+			env_cpu_count = os.environ["CPU_COUNT"]
+			print(f"Environment variable CPU_COUNT should be an integer or empty string, but found {env_cpu_count}.")
 	else:
 		cpu_count = multiprocessing.cpu_count() // 2
 	return max(cpu_count, 1)
